@@ -183,6 +183,9 @@ void ESP32BLEController::setup_ble_services_for_components() {
 #ifdef USE_SWITCH
   setup_ble_services_for_components(App.get_switches(), BLEComponentHandlerFactory::create_switch_handler);
 #endif
+#ifdef USE_NUMBER
+  setup_ble_services_for_components(App.get_numbers(), BLEComponentHandlerFactory::create_number_handler);
+#endif
 #ifdef USE_TEXT_SENSOR
   setup_ble_services_for_components(App.get_text_sensors(), BLEComponentHandlerFactory::create_text_sensor_handler);
 #endif
@@ -266,6 +269,15 @@ void ESP32BLEController::register_state_change_callbacks_and_send_initial_states
     if (info_for_component.count(obj->get_object_id())) {
       obj->add_on_state_callback([this, obj](bool state) { this->on_switch_update(obj, state); });
       update_component_state(obj, obj->state);
+    }
+  }
+#endif
+#ifdef USE_NUMBER
+  for (auto *obj : App.get_numbers()) {
+    if (info_for_component.count(obj->get_object_id())) {
+      obj->add_on_state_callback([this, obj](float state) { this->on_number_update(obj, state); });
+      if (obj->has_state())
+        update_component_state(obj, obj->state);
     }
   }
 #endif
@@ -390,6 +402,9 @@ void ESP32BLEController::send_command_result(const char* format, ...) {
 #endif
 #ifdef USE_SWITCH
   void ESP32BLEController::on_switch_update(switch_::Switch *obj, bool state) { update_component_state(obj, state); }
+#endif
+#ifdef USE_NUMBER
+  void ESP32BLEController::on_number_update(number::Number *obj, float state) { update_component_state(obj, state); }
 #endif
 #ifdef USE_TEXT_SENSOR
   void ESP32BLEController::on_text_sensor_update(text_sensor::TextSensor *obj, std::string state) { update_component_state(obj, state); }

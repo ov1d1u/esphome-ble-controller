@@ -128,6 +128,9 @@ private:
 #ifdef USE_SWITCH
   void on_switch_update(switch_::Switch *obj, bool state);
 #endif
+#ifdef USE_NUMBER
+  void on_number_update(number::Number *obj, float state);
+#endif
 #ifdef USE_COVER
   void on_cover_update(cover::Cover *obj);
 #endif

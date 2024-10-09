@@ -20,6 +20,9 @@
 #ifdef USE_SWITCH
 #include "esphome/components/switch/switch.h"
 #endif
+#ifdef USE_NUMBER
+#include "esphome/components/number/number.h"
+#endif
 #ifdef USE_TEXT_SENSOR
 #include "esphome/components/text_sensor/text_sensor.h"
 #endif
@@ -59,6 +62,10 @@ public:
 
 #ifdef USE_SWITCH
   static BLEComponentHandlerBase* create_switch_handler(switch_::Switch* component, const BLECharacteristicInfoForHandler& characteristic_info);
+#endif
+
+#ifdef USE_NUMBER
+  static BLEComponentHandlerBase* create_number_handler(number::Number* component, const BLECharacteristicInfoForHandler& characteristic_info);
 #endif
 
 #ifdef USE_TEXT_SENSOR

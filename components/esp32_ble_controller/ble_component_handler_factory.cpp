@@ -4,6 +4,7 @@
 #include "ble_fan_handler.h"
 #include "ble_sensor_handler.h"
 #include "ble_switch_handler.h"
+#include "ble_number_handler.h"
 
 namespace esphome {
 namespace esp32_ble_controller {
@@ -41,6 +42,12 @@ BLEComponentHandlerBase* esphome::esp32_ble_controller::BLEComponentHandlerFacto
 #ifdef USE_SWITCH
 BLEComponentHandlerBase* BLEComponentHandlerFactory::create_switch_handler(switch_::Switch* component, const BLECharacteristicInfoForHandler& characteristic_info) {
   return new BLESwitchHandler(component, characteristic_info);
+}
+#endif
+
+#ifdef USE_NUMBER
+BLEComponentHandlerBase* esphome::esp32_ble_controller::BLEComponentHandlerFactory::create_number_handler(number::Number* component, const BLECharacteristicInfoForHandler& characteristic_info) {
+  return new BLENumberHandler(component, characteristic_info);    
 }
 #endif
 
